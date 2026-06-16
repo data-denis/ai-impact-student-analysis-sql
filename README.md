@@ -1,44 +1,49 @@
-# AI Impact on Students - SQL Analysis
+# AI Impact on Students: SQL Analysis
 
-In this project I used SQL to look at how college students' use of generative AI tools (ChatGPT, Copilot, Gemini) relates to their grades, how much they actually retain, and their mental wellbeing. I wanted to see whether more AI use actually helps students or not, since that question keeps coming up and the answer isn't obvious.
+For my SQL analysis project, I decided to examine how generative AI usage among college students affects their GPAs, their retention of knowledge, and their mental wellbeing. The topic is relevant, and there are quite a few debates going on right now, with no real consensus on whether the technology is useful for students or not.
 
-The short version: more AI is not automatically better. Students with moderate use had the best GPA change, heavy users had the worst, and heavy use also lined up with the lowest skill retention and the highest dependency.
+The short summary: less is not necessarily better here. Students who use AI moderately have the most positive changes in GPA. At the same time, excessive usage is negatively correlated with GPA and associated with worse skill retention and higher dependency.
 
 ## The data
 
-I used the [Impact of AI on Students](https://www.kaggle.com/datasets/laveshjadon/ai-impact-on-students) dataset from Kaggle. It has 50,000 student records covering AI usage, study habits, pre and post semester GPA, school AI policy, and wellbeing scores like exam anxiety and burnout.
+I used the [Impact of AI on Students](https://www.kaggle.com/datasets/laveshjadon/ai-impact-on-students) dataset, sourced from Kaggle. It contains 50,000 observations of various student characteristics, including AI use, study hours, GPA before and after the semester, the AI policies of their respective schools, and wellbeing factors such as anxiety and dependency.
 
-I started with the raw flat file, then split it into three tables keyed on Student_ID (students_info, ai_usage, wellbeing_info) so I could practice joins on top of the exploratory work.
+I worked with the dataset in its original raw form and split it into three tables: one containing student information (students_info), one with AI usage details (ai_usage), and one related to wellbeing (wellbeing_info).
 
 ## Tools
 
 MySQL, written and run in MySQL Workbench.
 
-## Files in this repo
+## Files included in this repository
 
-- `01_schema_setup.sql` - creates the three tables and fills them from the raw flat file
-- `02_ai_impact_discovery.sql` - the full analysis, from basic exploration to window functions
-- `README.md` - this file
+- `01_schema_setup.sql` creates the tables and fills them from the original flat file dataset
+- `02_ai_impact_discovery.sql` holds the analysis queries, from simple exploration up to window functions
+- `README.md` is this file
 
 ## What I did
 
-I built the project in stages that get progressively harder:
+To build the analysis, I went through the process step by step, increasing the difficulty as I went:
 
-- First I set up the schema, splitting the raw flat file into three tables linked by Student_ID, with one primary key table and two that reference it.
-- Then I explored the raw data with grouping, CASE statements, and CTEs to get the big-picture trends by major, school policy, year, and usage level.
-- Then I rewrote the same kinds of questions across the three joined tables to show multi-table joins.
-- Last I added window functions: ranking students within their major, splitting everyone into usage quartiles, and comparing each student to their own major's average.
+First, I created the schema, splitting the original flat file into three tables and linking them by a common field (Student_ID). One table was the primary table, and the other two referenced it.
 
-Every query has a comment above it with the question it answers and what I found, so the file reads top to bottom on its own.
+Second, I explored the data with grouping, CASE WHEN statements, and CTEs to find the general patterns in GPA change, skill retention, dependency, and other metrics, broken down by the students' major, the AI policy of their university, and so on.
 
-## What I found
+Third, I asked the same types of questions, but this time using joins across multiple tables.
 
-- Moderate AI users had the best GPA change. Heavy users had the worst. Some help is good, too much isn't.
-- Heavy AI users had the lowest skill retention, which fits the idea that leaning on the tool too hard gets in the way of actually learning. This is a correlation, not proof.
-- Schools that banned AI didn't stop students from using it, and those schools had the highest exam anxiety and the highest perceived dependency.
-- When I split students into four groups by AI usage, the pattern got clearer. From the lowest to highest usage group, perceived dependency more than doubled (about 2.5 to 5.2), study hours dropped (about 11.9 to 10.1), and paid subscriptions went from the minority to the majority.
+Fourth, I added window functions, such as ranking students within their major, calculating usage quartiles, and comparing each individual's values against the average for their major.
 
-## What I'd do next
+Every query has a descriptive comment above it with the question it answers, so the script reads top to bottom on its own.
 
-- Build a Tableau dashboard from these query results to show the quartile and major-level patterns visually
-- Check whether the AI-vs-GPA pattern still holds after accounting for where students started GPA-wise
+## Results
+
+Moderate AI use correlates positively with GPA change. Heavy AI use, on the other hand, correlates negatively. The right amount of AI assistance seems to help, but too much of it hurts.
+
+Heavier AI use also correlates with lower skill retention, which fits the idea that leaning on the tool too much gets in the way of actually learning the material. This is a correlation, not proof of cause.
+
+Schools that banned AI did not stop students from using it. Students at those schools still reported using AI, and those same schools showed the highest exam anxiety and the highest perceived dependency, which suggests bans may not be doing what they are meant to.
+
+Splitting students into four equal groups by AI usage made the pattern clearer. Going from the lowest usage group to the highest, perceived dependency more than doubled (from roughly 2.5 to 5.2), traditional study hours dropped (from roughly 11.9 to 10.1), and paid subscriptions went from the minority to the majority of the group.
+
+## What I would do next
+
+I would build a Tableau dashboard from these query results to show the quartile and major level patterns visually, and I would check whether the relationship between AI use and GPA still holds after accounting for where each student started GPA wise.
